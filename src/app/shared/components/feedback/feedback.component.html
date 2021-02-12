@@ -1,0 +1,7 @@
+<p>feedback works!</p>
+<input
+[ngModel]="value"
+(ngModelChange)="onValueChange($event)"
+(blur)="onInputBlurred()"
+[disabled]="disabled"
+/>

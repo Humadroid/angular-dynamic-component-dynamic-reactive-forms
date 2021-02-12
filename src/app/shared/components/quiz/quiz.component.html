@@ -1,0 +1,15 @@
+<p>quiz works!</p>
+<!-- <form [formGroup]="quizForm">
+  <input formControlName="task"/>
+  <input formControlName="selected"/>
+</form> -->
+<ng-container [formGroup]="quiz">
+  <div class="row">
+    <label for="Task"> Task </label>
+    <input type="text" formControlName="task" class="">
+  </div>
+  <div class="row">
+    <label for="Selected"> Selected </label>
+    <input type="text" formControlName="selected" class="">
+  </div>
+</ng-container>
