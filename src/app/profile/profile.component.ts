@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
       quiz: { task: 'task', selected: 'hello@gmail.com' },
       userDetails: { addressLine: '1', areacode: 'qw' }
     }, { emitEvent: false });
-    this.profileForm.controls.feedback.disable();
+    this.profileForm.controls.quiz.disable();
   }
 
 }

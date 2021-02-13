@@ -1,12 +1,12 @@
 <ng-container [formGroup]="profileForm">
-  <!-- <ng-container *ngFor="let item of components;">
-    <ng-template appComponentLoader [component]="item.component" [formControlName]="item.formControlName"></ng-template>
-  </ng-container> -->
+  <ng-container *ngFor="let item of components;">
+    <ng-template appComponentLoader [details]="item"></ng-template>
+  </ng-container>
 
   <!--This below works not the above, validation error not detected in above ! whyy ? -->
 
-    <app-user-details formControlName="userDetails"></app-user-details>
+    <!-- <app-user-details formControlName="userDetails"></app-user-details>
     <app-quiz formControlName="quiz"></app-quiz>
-    <app-feedback formControlName="feedback"></app-feedback>
+    <app-feedback formControlName="feedback"></app-feedback> -->
 
 </ng-container>

@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FeedbackComponent } from './components/feedback/feedback.component';
@@ -21,7 +22,8 @@ import { ComponentLoaderDirective } from './directives/component-loader.directiv
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   exports: [
     ComponentLoaderDirective,
@@ -29,7 +31,8 @@ import { ComponentLoaderDirective } from './directives/component-loader.directiv
     FeedbackComponent,
     UserDetailsComponent,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ]
 })
 export class SharedModule { }

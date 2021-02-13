@@ -1,5 +1,16 @@
-import { Component, forwardRef, OnInit } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
+import { Component, forwardRef } from '@angular/core';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  FormBuilder,
+  FormGroup,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator,
+  Validators
+} from '@angular/forms';
+import { TypicodeAPIService } from '../../services/typicode-api.service';
 
 @Component({
   selector: 'app-user-details',
@@ -18,36 +29,46 @@ import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALID
     }
   ]
 })
-export class UserDetailsComponent implements OnInit, ControlValueAccessor, Validator {
+export class UserDetailsComponent implements ControlValueAccessor, Validator {
 
-  public userDetails: FormGroup = new FormGroup({
-    addressLine: new FormControl('', [Validators.required]),
-    areacode: new FormControl('', [Validators.required, Validators.maxLength(5)])
+  constructor(private fb: FormBuilder, private readonly typicodeAPIService: TypicodeAPIService) { }
+
+  public userDetails: FormGroup = this.fb.group({
+    name: [
+      // initial value
+      null,
+      // sync built-in validators
+      Validators.compose(
+        [Validators.required, Validators.minLength(3)],
+      ),
+      // custom async validator
+      this.typicodeAPIService.userValidator()
+    ],
+    addressLine: ['', [Validators.required]],
+    areacode: ['', [Validators.required, Validators.maxLength(5)]],
   });
-  constructor() { }
-
-  ngOnInit() {
-  }
 
   public onTouched: () => void = () => { };
 
   writeValue(val: any): void {
-    val && this.userDetails.setValue(val, { emitEvent: false });
+    if (val) {
+      this.userDetails.setValue(val, { emitEvent: false });
+    }
   }
+
   registerOnChange(fn: any): void {
-    console.log('on change');
     this.userDetails.valueChanges.subscribe(fn);
   }
+
   registerOnTouched(fn: any): void {
-    console.log('on blur');
     this.onTouched = fn;
   }
+
   setDisabledState?(isDisabled: boolean): void {
     isDisabled ? this.userDetails.disable() : this.userDetails.enable();
   }
 
   validate(c: AbstractControl): ValidationErrors | null {
-    console.log('userDetails validation');
     return this.userDetails.valid ? null : { invalidForm: { valid: false, message: 'userDetails fields are invalid' } };
   }
 }

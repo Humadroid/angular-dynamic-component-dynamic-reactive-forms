@@ -1,5 +1,15 @@
-import { Component, forwardRef, OnInit } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
+import { Component, forwardRef } from '@angular/core';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  FormControl,
+  FormGroup,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator,
+  Validators
+} from '@angular/forms';
 
 @Component({
   selector: 'app-quiz',
@@ -18,37 +28,35 @@ import { AbstractControl, ControlValueAccessor, FormBuilder, FormControl, FormGr
     },
   ]
 })
-export class QuizComponent implements OnInit, ControlValueAccessor, Validator {
+export class QuizComponent implements ControlValueAccessor, Validator {
 
-  public quiz: FormGroup = new FormGroup(
-    {
-      task: new FormControl('', [Validators.required]),
-      selected: new FormControl('', [Validators.required])
-    });
-  constructor() { }
-
-  ngOnInit() {
-  }
+  public quiz: FormGroup = new FormGroup({
+    task: new FormControl('', [Validators.required]),
+    selected: new FormControl('', [Validators.required])
+  });
 
   public onTouched: () => void = () => { };
 
   writeValue(val: any): void {
-    val && this.quiz.setValue(val, { emitEvent: false });
+    if (val) {
+      this.quiz.setValue(val, { emitEvent: false });
+    }
   }
+
   registerOnChange(fn: any): void {
-    console.log('on change');
     this.quiz.valueChanges.subscribe(fn);
   }
+
   registerOnTouched(fn: any): void {
-    console.log('on blur');
     this.onTouched = fn;
   }
+
   setDisabledState?(isDisabled: boolean): void {
     isDisabled ? this.quiz.disable() : this.quiz.enable();
   }
 
   validate(c: AbstractControl): ValidationErrors | null {
-    console.log('Basic Info validation', c);
     return this.quiz.valid ? null : { invalidForm: { valid: false, message: 'quiz fields are invalid' } };
   }
+
 }
